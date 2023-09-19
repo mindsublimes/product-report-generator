@@ -1,0 +1,15 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    csv (3.2.7)
+    json (2.6.3)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  csv
+  json
+
+BUNDLED WITH
+   2.4.19
