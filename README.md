@@ -13,7 +13,7 @@ To use the Product Report Generator, you can clone this repository to your local
 2. Navigate to the directory where you want to clone the repository.
 
 3. Run the following command to clone the repository:
-   git clone https://github.com/your-username/product-report-generator.git
+   git clone https://github.com/mindsublimes/product-report-generator.git
 
 
 
@@ -22,31 +22,28 @@ To use the Product Report Generator, you can clone this repository to your local
 After cloning the repository, you'll need to install the required dependencies. Make sure you have Ruby installed on your system. Then, follow these steps:
 
 Navigate to the project directory:
+
 cd product-report-generator
+
 Run the following command to install the necessary gems (CSV and JSON):
 
-1. bundle install
+bundle install
 
 ### To generate a JSON report from a CSV file, follow these steps:
 
-Run the script from the command line using the following command:
+1. To generate a JSON report from a CSV file run the following command.
 
-1. Navigate to the project directory if you are not already there
-2. ruby product_report_generator.rb your_csv_file.csv
+ruby -r "./scripts/product_report_generator.rb" -e "ProductReportGenerator.new('./tests/files/valid_product_data.csv').generate_report"
 
-Note: Replace your_csv_file.csv with the name of your CSV file or choose any csv file from test/files.
+2.For invalid data run the following command.
 
-If the CSV file is correctly formatted, the script will generate a JSON report and display it on the console.
-
+ruby -r "./scripts/product_report_generator.rb" -e "ProductReportGenerator.new('./tests/files/incorrect_headers.csv').generate_report"
 
 ### Testing
-To ensure the correctness of the Product Report Generator, we have included test cases. Follow these steps to run the tests:
 
-Navigate to the project directory if you are not already there:
+To ensure correctness, test cases are included. Run them with:
 
-Run the tests using the following command:
-
-1. ruby -Ilib:test tests/product_report_generator.rb
+ruby -Ilib:test tests/product_report_generator.rb
 
 ### Design Choices
 
