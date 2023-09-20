@@ -14,39 +14,47 @@ class ProductReportGenerator
 
   def generate_report
     begin
-      products = []
-
-      CSV.foreach(@csv_file_path, headers: true) do |row|
-        unless valid_headers?(row.headers)
-          raise InvalidCSVError
-        end
-
-        product = {
-          "Product ID" => row["Product ID"],
-          "Product Name" => row["Product Name"],
-          "Description" => row["Description"],
-          "Price" => row["Price"].to_f,
-          "Availability" => row["Availability"] == "true"
-        }
-        products << product
-      end
-
-      report = { "products" => products }
-      return report.to_json
-
+      products = process_csv
+      generate_json_report(products)
     rescue InvalidCSVError => e
-      return e.message
-
+      handle_error(e)
     rescue StandardError => e
-      puts "Error: #{e.message}"
-      return nil
+      handle_error(e)
     end
   end
 
   private
 
+  def process_csv
+    products = []
+    CSV.foreach(@csv_file_path, headers: true) do |row|
+      raise InvalidCSVError unless valid_headers?(row.headers)
+
+      product = {
+        "Product ID" => row["Product ID"],
+        "Product Name" => row["Product Name"],
+        "Description" => row["Description"],
+        "Price" => row["Price"].to_f,
+        "Availability" => row["Availability"] == "true"
+      }
+      products << product
+    end
+    products
+  end
+
+  def generate_json_report(products)
+    report = { "products" => products }
+    json_report = report.to_json
+    puts json_report
+    json_report
+  end
+
+  def handle_error(e)
+    puts "Error: #{e.message}"
+    e.message
+  end
+
   def valid_headers?(headers)
-    expected_headers = ["Product ID", "Product Name", "Description", "Price", "Availability"]
-    headers == expected_headers
+    headers == ["Product ID", "Product Name", "Description", "Price", "Availability"]
   end
 end
