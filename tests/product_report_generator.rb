@@ -1,7 +1,9 @@
 require 'csv'
 require 'json'
+require 'pry'
 require 'test/unit'
 require_relative '../scripts/product_report_generator'
+
 
 class TestProductReportGenerator < Test::Unit::TestCase
   
@@ -19,8 +21,7 @@ class TestProductReportGenerator < Test::Unit::TestCase
     csv_file_path = File.join('tests/files', 'non_existent_file.csv')
     report_generator = ProductReportGenerator.new(csv_file_path)
     json_report = report_generator.generate_report
-
-    assert_nil(json_report)
+    assert_equal("No such file or directory @ rb_sysopen - #{csv_file_path}", json_report)
   end
 
   def test_csv_file_with_incorrect_headers

@@ -15,7 +15,6 @@ class CsvToJsonTest < Minitest::Test
     Tempfile.create(['test', '.csv']) do |tempfile|
       tempfile.write(csv_data)
       tempfile.rewind
-      debugger
       json_report = generate_product_report(tempfile.path)
 
       expected_report = [
@@ -34,8 +33,6 @@ class CsvToJsonTest < Minitest::Test
           "Availability": false
         }
       ].to_json
-
-      debugger
 
       assert_equal expected_report, json_report
     end
